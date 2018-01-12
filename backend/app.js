@@ -16,7 +16,9 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../app')))
 
 app.use('/', require('./routes/index'))
-app.use('/thumbnails', require('./routes/thumbnails'))
+app.use('/api', require('./routes/api'))
+app.use('/admin', require('./routes/admin'))
+app.use('/image', require('./routes/image'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

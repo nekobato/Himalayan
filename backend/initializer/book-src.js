@@ -4,41 +4,6 @@ const Book = require('../models/book')
 const Author = require('../models/author')
 const config = require('../config')
 
-async function listDirectories (rawDirectory) {
-  let directories = fs.readdirSync(rawDirectory)
-
-  for (let directory of directories) {
-
-    const bookRawDir = path.join(rawDirectory, directory)
-
-    // File Detail
-    let fileStat = fs.statSync(bookRawDir)
-    if (!fileStat.isDirectory()) continue
-    let bookInfo = fileName2BookInfo(directory)
-    if (!bookInfo) continue
-
-    // DB
-    let book = await Author.findOrCreate({
-      name: bookInfo.author
-    }).then(author => {
-      return Book.findOrCreate({
-        title: bookInfo.title,
-        author_uuid: author.uuid
-      })
-    })
-
-    const bookSrcDir = path.join(config.dir.src, book.uuid)
-
-    // mkdir
-    fs.mkdirSync(bookSrcDir)
-
-    // Trans Files
-    await numberingImages(bookRawDir, bookSrcDir)
-  }
-
-  return Promise.resolve(true)
-}
-
 function fileName2BookInfo (fileName) {
   let match = fileName.match(/^\[.*\]/)
   if (!match) return null
@@ -72,15 +37,38 @@ async function numberingImages (oldDir, newDir) {
 }
 
 module.exports = {
-  init () {
-    listDirectories(config.dir.raw)
-      .then(data => {
-        console.log('done.')
-        return
+  async init () {
+
+    let directories = fs.readdirSync(config.dir.raw)
+
+    for (let directory of directories) {
+
+      const bookRawDir = path.join(config.dir.raw, directory)
+
+      // File Detail
+      let fileStat = fs.statSync(bookRawDir)
+      if (!fileStat.isDirectory()) continue
+      let bookInfo = fileName2BookInfo(directory)
+      if (!bookInfo) continue
+
+      // DB
+      let author = await Author.findOrCreate({
+        name: bookInfo.author
       })
-      .catch(err => {
-        console.log(err)
-        return
+      let book = await Book.findOrCreate({
+        title: bookInfo.title,
+        author: author._id
       })
+
+      const bookSrcDir = path.join(config.dir.src, book.uuid)
+
+      // mkdir
+      if (!fs.existsSync(bookSrcDir)) fs.mkdirSync(bookSrcDir)
+
+      // Trans Files
+      await numberingImages(bookRawDir, bookSrcDir)
+    }
+
+    return true
   }
 }

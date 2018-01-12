@@ -7,33 +7,36 @@ const _ = require('lodash')
 
 // src + dbは既に存在する前提
 
-async function init () {
-  let books = await Book.find()
+module.exports = {
+  async init () {
 
-  for (let book of books) {
+    let books = await Book.find()
 
-    let images = _.filter(fs.readdirSync(path.join(config.dir.src, book.uuid)), n => {
-      return /\.(jpe?g|png)$/.test(n)
-    })
+    for (let book of books) {
 
-    await createThumbnail(book, images[0])
+      let images = _.filter(fs.readdirSync(path.join(config.dir.src, book.uuid)), n => {
+        return /\.(jpe?g|png)$/.test(n)
+      })
 
-    if (!fs.existsSync(path.join(config.dir.small, book.uuid))) fs.mkdirSync(path.join(config.dir.small, book.uuid))
-    if (!fs.existsSync(path.join(config.dir.big, book.uuid))) fs.mkdirSync(path.join(config.dir.big, book.uuid))
+      await createThumbnail(book, images[0])
 
-    for (let image of images) {
-      await createSmallImage(book, image)
-      await createBigImage(book, image)
+      if (!fs.existsSync(path.join(config.dir.small, book.uuid))) fs.mkdirSync(path.join(config.dir.small, book.uuid))
+      if (!fs.existsSync(path.join(config.dir.big, book.uuid))) fs.mkdirSync(path.join(config.dir.big, book.uuid))
+
+      for (let image of images) {
+        await createSmallImage(book, image)
+        await createBigImage(book, image)
+      }
     }
-  }
 
-  return Promise.resolve()
+    return true
+  }
 }
 
 function createThumbnail (book, image) {
   return writeImage(
     path.join(config.dir.src, book.uuid, image), // read
-    path.join(config.dir.thumbnail, book.uuid) + '.jpg', // write
+    path.join(config.dir.thumbnail, book.uuid + '.jpg'), // write
     config.size.thumbnail, // size
     50) // quality
 }
@@ -69,10 +72,3 @@ function writeImage (readFile, writeFile, size, quality) {
     if (code === 1) return Promise.reject('convert command exited with code 1.')
   })
 }
-
-init()
-  .then(data => {
-    console.log('done')
-    process.exit(0)
-  })
-  .catch(err => console.log('err:', err))

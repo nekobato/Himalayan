@@ -21,6 +21,6 @@ async function create (book) {
   return new Book({
     uuid: util.createUuid(32),
     title: book.title,
-    author_uuid: book.author_uuid
+    author: book.author
   }).save()
 }

@@ -8,13 +8,14 @@ function dirExists (dir) {
 }
 
 module.exports = directory = {
-  init () {
+  async init () {
+
     for (let dir in config.dir) {
       if (fs.existsSync(config.dir[dir])) continue
       fs.mkdirSync(config.dir[dir])
-      if (!dirExists(config.dir[dir])) return console.error(`Error: failed to make directory ${config.dir[dir]}`)
+      if (!dirExists(config.dir[dir])) return Promise.reject(`Error: failed to make directory ${config.dir[dir]}`)
     }
+
+    return true
   }
 }
-
-directory.init()

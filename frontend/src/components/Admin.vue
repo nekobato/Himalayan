@@ -1,7 +1,28 @@
 <template>
   <div class="admin-page">
     <h1>Admin</h1>
-    <button class="initialize-button">リストアップ</button>
+    <div class="control-group">
+      <h2>本のデータ変更</h2>
+      <form method="post" @submit="updateBook">
+        <label>
+          <span>ID</span>
+          <input type="text" name="id" />
+        </label>
+        <label>
+          <span>TITLE</span>
+          <input type="text" name="title" />
+        </label>
+        <label>
+          <span>AUTHOR</span>
+          <input type="text" name="author" />
+        </label>
+        <button class="post-button"></button>
+      </form>
+    </div>
+    <div class="control-group">
+      <h2>Rawに置かれた本を全走査</h2>
+      <button class="initialize-button">Run</button>
+    </div>
   </div>
 </template>
 
@@ -10,6 +31,16 @@ export default {
   name: 'AdminPage',
   data () {
     return {
+      book: {
+        id: null,
+        title: null,
+        author: null
+      }
+    }
+  },
+  methods: {
+    updateBook () {
+
     }
   }
 }

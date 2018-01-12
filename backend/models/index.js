@@ -14,7 +14,10 @@ const BookSchema = new Schema({
     type: String,
     unique: true
   },
-  author_uuid: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'Author'
+  },
   created_at: {
     type: Date,
     default: Date.now
