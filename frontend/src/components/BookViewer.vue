@@ -12,8 +12,7 @@
 
 <script>
 import api from '@/lib/api'
-
-const baseURL = 'http://localhost:3000'
+import config from '@/config'
 
 export default {
   name: 'BookViewer',
@@ -26,7 +25,7 @@ export default {
   },
   computed: {
     currentPageImageURL () {
-      return `${baseURL}/image/small/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
+      return `${config.baseURL}/image/small/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
     }
   },
   methods: {

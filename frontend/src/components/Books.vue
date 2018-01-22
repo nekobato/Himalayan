@@ -14,8 +14,7 @@
 <script>
 import _ from 'lodash'
 import api from '@/lib/api'
-
-const baseURL = 'http://localhost:3000'
+import config from '@/config'
 
 export default {
   name: 'Books',
@@ -27,7 +26,7 @@ export default {
   computed: {
     books () {
       return _.map(this.$data.booksRaw, book => {
-        book.thumbnailURL = `${baseURL}/image/thumbnail/${book.uuid}.jpg`
+        book.thumbnailURL = `${config.baseURL}/image/thumbnail/${book.uuid}.jpg`
         book.link = `book/${book.uuid}`
         return book
       })
