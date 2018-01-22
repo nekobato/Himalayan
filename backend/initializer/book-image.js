@@ -14,6 +14,8 @@ module.exports = {
 
     for (let book of books) {
 
+      console.log(`Started convertment: ${book.title}`)
+
       let images = _.filter(fs.readdirSync(path.join(config.dir.src, book.uuid)), n => {
         return /\.(jpe?g|png)$/.test(n)
       })
