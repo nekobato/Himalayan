@@ -26,7 +26,7 @@ export default {
   computed: {
     books () {
       return _.map(this.$data.booksRaw, book => {
-        book.thumbnailURL = `${config.baseURL}/image/thumbnail/${book.uuid}.jpg`
+        book.thumbnailURL = `${config.baseURL}image/thumbnail/${book.uuid}.jpg`
         book.link = `book/${book.uuid}`
         return book
       })

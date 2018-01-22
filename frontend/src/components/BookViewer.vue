@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     currentPageImageURL () {
-      return `${config.baseURL}/image/small/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
+      return `${config.baseURL}image/small/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
     }
   },
   methods: {

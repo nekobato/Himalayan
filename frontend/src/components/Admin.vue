@@ -21,12 +21,14 @@
     </div>
     <div class="control-group">
       <h2>Rawに置かれた本を全走査</h2>
-      <button class="initialize-button">Run</button>
+      <button class="initialize-button" @click="init">Run</button>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/lib/api'
+
 export default {
   name: 'AdminPage',
   data () {
@@ -39,8 +41,16 @@ export default {
     }
   },
   methods: {
+    init () {
+      api.get('admin/init')
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
     updateBook () {
-
     }
   }
 }
