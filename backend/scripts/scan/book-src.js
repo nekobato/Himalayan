@@ -1,8 +1,9 @@
 const fs = require('fs')
 const path = require('path')
-const Book = require('../models/book')
-const Author = require('../models/author')
-const config = require('../config')
+const Book = require('@/models/book')
+const Author = require('@/models/author')
+const util = require('@/utils/file')
+const config = require('@/config')
 
 function fileName2BookInfo (fileName) {
   let match = fileName.match(/^\[.*\]/)
@@ -17,8 +18,10 @@ async function numberingImages (oldDir, newDir) {
 
   function renameImage (file, index) {
     return new Promise((resolve, reject) => {
-      const newFile = path.join(newDir, index.toString() + path.extname(file))
-      if (fs.existsSync(newFile)) return reject(`${newFile} is already exists.`)
+      const newFile = path.join(newDir, util.zeroPadding(index, 3) + path.extname(file))
+
+      if (fs.existsSync(newFile)) throw `${newFile} is already exists.`
+
       fs.rename(path.join(oldDir, file), newFile, (err) => {
         if (err) return reject(err)
         return resolve(newFile)

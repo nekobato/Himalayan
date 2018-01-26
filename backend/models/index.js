@@ -5,6 +5,13 @@ mongoose.connect(databaseConfig.production.database)
 mongoose.Promise = global.Promise
 const Schema = mongoose.Schema
 
+const AdminSchema = new Schema({
+  is_converting: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const BookSchema = new Schema({
   uuid: {
     type: String,
@@ -21,6 +28,9 @@ const BookSchema = new Schema({
   created_at: {
     type: Date,
     default: Date.now
+  },
+  converted_at: {
+    type: Date
   }
 })
 
@@ -41,6 +51,7 @@ const AuthorSchema = new Schema({
 })
 
 module.exports = {
+  Admin: mongoose.model('Admin', AdminSchema),
   Book: mongoose.model('Book', BookSchema),
   Author: mongoose.model('Author', AuthorSchema)
 }

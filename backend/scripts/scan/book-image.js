@@ -1,8 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 const { spawn } = require('child_process')
-const Book = require('../models/book')
-const config = require('../config')
+const Book = require('@/models/book')
+const config = require('@/config')
+const util = reuqire('@/utils/file')
 const _ = require('lodash')
 
 // src + dbは既に存在する前提
@@ -14,7 +15,7 @@ module.exports = {
 
     for (let book of books) {
 
-      console.log(`Started convertment: ${book.title}`)
+      console.log(`Convert: ${book.title}`)
 
       let images = _.filter(fs.readdirSync(path.join(config.dir.src, book.uuid)), n => {
         return /\.(jpe?g|png)$/.test(n)
@@ -22,13 +23,15 @@ module.exports = {
 
       await createThumbnail(book, images[0])
 
-      if (!fs.existsSync(path.join(config.dir.small, book.uuid))) fs.mkdirSync(path.join(config.dir.small, book.uuid))
-      if (!fs.existsSync(path.join(config.dir.big, book.uuid))) fs.mkdirSync(path.join(config.dir.big, book.uuid))
+      await util.accessOrMakeDir(path.join(config.dir.small, book.uuid))
+      await util.accessOrMakeDir(path.join(config.dir.big, book.uuid))
 
       for (let image of images) {
         await createSmallImage(book, image)
         await createBigImage(book, image)
       }
+
+      await Book.converted(book)
     }
 
     return true

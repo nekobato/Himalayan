@@ -2,7 +2,7 @@ const { Book } = require('./')
 const util = require('./utils')
 
 module.exports = {
-  async findOrCreate (book) {
+  findOrCreate (book) {
     return Book.findOne({ title: book.title })
       .then(data => {
         if (data) {
@@ -11,9 +11,23 @@ module.exports = {
           return create(book)
         }
       })
+      .catch(err => {
+        throw err
+      })
   },
-  async find (option) {
+  find (option) {
     return Book.find(option)
+  },
+  converted (book) {
+    return Book.findOneAndUpdate({ _id: book._id }, {
+      converted_at: Date.now()
+    })
+      .then(data => {
+        return data
+      })
+      .catch(err => {
+        throw err
+      })
   }
 }
 
