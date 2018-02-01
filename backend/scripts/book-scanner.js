@@ -18,7 +18,7 @@ async function numberingImages (oldDir, newDir) {
 
   function renameImage (file, index) {
     return new Promise((resolve, reject) => {
-      const newFile = path.join(newDir, util.zeroPadding(index, 3) + path.extname(file))
+      const newFile = path.join(newDir, util.zeroPadding(index, '000') + path.extname(file))
 
       if (fs.existsSync(newFile)) throw `${newFile} is already exists.`
 

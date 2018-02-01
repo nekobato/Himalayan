@@ -16,6 +16,6 @@ module.exports = {
     })
   },
   zeroPadding (num, padding) {
-    return (padding.toString() + num.toString()).slice(-3)
+    return (padding + num.toString()).slice(-3)
   }
 }
