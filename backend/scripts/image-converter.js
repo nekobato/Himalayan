@@ -1,17 +1,18 @@
 const fs = require('fs')
 const path = require('path')
 const { spawn } = require('child_process')
-const Book = require('@/models/book')
-const config = require('@/config')
-const util = reuqire('@/utils/file')
 const _ = require('lodash')
+const { Book } = require('../models')
+const BookUtil = require('../models/book')
+const config = require('../config')
+const util = require('../utils/file')
 
 // src + dbは既に存在する前提
 
 module.exports = {
   async init () {
 
-    let books = await Book.find()
+    let books = await Book.find({ converted_at: { $eq: null } })
 
     for (let book of books) {
 
@@ -31,7 +32,7 @@ module.exports = {
         await createBigImage(book, image)
       }
 
-      await Book.converted(book)
+      await BookUtil.converted(book)
     }
 
     return true

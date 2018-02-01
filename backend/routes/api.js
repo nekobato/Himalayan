@@ -30,7 +30,7 @@ router.get('/book/:uuid', function (req, res, next) {
           next(err)
         } else {
           let pages = _.filter(files, file => {
-            return /\.jpg$/.test(file)
+            return /\.(jpg|png)$/.test(file)
           })
           res.status(200).json(pages)
         }
