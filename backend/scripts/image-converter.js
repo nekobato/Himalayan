@@ -18,9 +18,28 @@ module.exports = {
 
       console.log(`Convert: ${book.title}`)
 
-      let images = _.filter(fs.readdirSync(path.join(config.dir.src, book.uuid)), n => {
+      let bookSrcDir = path.join(config.dir.src, book.uuid)
+
+      // Check Source Directory Existence
+      try {
+        fs.accessSync(bookSrcDir)
+      } catch (e) {
+        continue
+      }
+
+      fs.accessSync(bookSrcDir)
+
+      let images = _.filter(fs.readdirSync(bookSrcDir), n => {
         return /\.(jpe?g|png)$/.test(n)
       })
+
+      // Check Source Directory Images Existence
+      if (images.length === 0) {
+        console.log('no images found in: ${book.title} (${book.uuid})')
+        Book.remove({ uuid: book.uuid })
+        fs.rmdirSync(path.join(config.dir.src, book.uuid))
+        continue
+      }
 
       await createThumbnail(book, images[0])
 

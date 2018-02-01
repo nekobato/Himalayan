@@ -116,7 +116,7 @@ export default {
 .transparent-button {
   position: absolute;
   margin: auto;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
 }
 .goto-left-page {
   top: 0;

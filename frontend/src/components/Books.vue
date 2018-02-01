@@ -2,10 +2,16 @@
   <div class="books">
     <h2>Books</h2>
     <ul class="book-list">
-      <li v-for="book in books" :key="book.title">
+      <li class="book-cell"
+        v-for="book in books"
+        :key="book.title"
+        :style="{ width: cell.width + 'px', height: cell.height + 'px' }">
         <router-link :to="book.link" class="book-link" >
-          <img class="thumbnail" :src="book.thumbnailURL" />
-          <span class="book-title">{{ book.title }}</span>
+          <img class="thumbnail-image" :src="book.thumbnailURL" />
+          <div class="book-info">
+            <div class="book-title"><span class="info-text">{{ book.title }}</span></div>
+            <div class="book-author"><span class="info-text">{{ book.author.name }}</span></div>
+          </div>
         </router-link>
       </li>
     </ul>
@@ -21,7 +27,8 @@ export default {
   name: 'Books',
   data () {
     return {
-      booksRaw: []
+      booksRaw: [],
+      windowWidth: null
     }
   },
   computed: {
@@ -31,6 +38,14 @@ export default {
         book.link = `book/${book.uuid}`
         return book
       })
+    },
+    cell () {
+      let cellMinWidth = 120
+      let offset = (this.windowWidth % cellMinWidth) / Math.floor(this.windowWidth / cellMinWidth)
+      return {
+        width: cellMinWidth + offset - 8,
+        height: (cellMinWidth + offset - 8) * 1.414
+      }
     }
   },
   methods: {
@@ -42,10 +57,18 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    setWindowWidth: _.debounce(function () {
+      this.windowWidth = window.innerWidth
+    }, 300)
   },
   created () {
+    this.windowWidth = window.innerWidth
+    window.addEventListener('resize', this.setWindowWidth)
     this.getBooks()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.setWindowWidth, false)
   }
 }
 </script>
@@ -56,20 +79,42 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-.thumbnail {
+.book-cell {
+  position: relative;
+  margin: 4px;
+}
+.thumbnail-image {
   /* 1:√1 */
-  width: 120px;
-  height: 170px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border: 1px solid #ddd;
 }
-.book-title {
-  display: block;
+.book-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  text-align: left;
+}
+.book-title,
+.book-author {
+  display: inline;
+  margin: 4px 0 0;
+}
+.info-text {
+  background: rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
   font-size: 16px;
-  color: #444;
+  color: #fff;
 }
 .book-link {
   display: block;
+  width: 100%;
+  height: 100%;
   text-decoration: none;
 }
 </style>

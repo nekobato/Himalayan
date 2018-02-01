@@ -34,8 +34,11 @@ init()
   })
   .catch(err => {
     console.log(err)
-    admin.update({ is_converting: false })
+    Admin.update({ is_converting: false })
       .then(() => {
         process.exit(1)
+      })
+      .catch(err => {
+        console.warn(err)
       })
   })
