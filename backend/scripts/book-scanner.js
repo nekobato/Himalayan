@@ -53,7 +53,11 @@ module.exports = {
       if (!fileStat.isDirectory()) continue
 
       let bookInfo = fileName2BookInfo(directory)
-      if (!bookInfo) continue
+
+      if (!bookInfo || !bookInfo.author || !bookInfo.title) {
+        console.log(`${directory}: name is not along the format [Author] Title.`)
+        continue
+      }
 
       console.log(`scanning: ${directory}`)
 
