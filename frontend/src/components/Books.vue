@@ -1,10 +1,11 @@
 <template>
-  <div class="hello">
+  <div class="books">
     <h2>Books</h2>
     <ul class="book-list">
       <li v-for="book in books" :key="book.title">
         <router-link :to="book.link" class="book-link" >
           <img class="thumbnail" :src="book.thumbnailURL" />
+          <span class="book-title">{{ book.title }}</span>
         </router-link>
       </li>
     </ul>
@@ -50,31 +51,25 @@ export default {
 </script>
 
 <style scoped>
-h1, h2 {
-  margin: 0;
-  padding: 0.5em 0;
-  font-weight: normal;
-}
-ul {
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 4px;
-}
-a {
-  color: #42b983;
+.books {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 .thumbnail {
   /* 1:√1 */
   width: 120px;
   height: 170px;
   object-fit: contain;
+  border: 1px solid #ddd;
+}
+.book-title {
+  display: block;
+  font-size: 16px;
+  color: #444;
 }
 .book-link {
   display: block;
+  text-decoration: none;
 }
 </style>

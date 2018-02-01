@@ -40,4 +40,23 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+
+h1, h2 {
+  margin: 0;
+  padding: 0.5em 0;
+  font-weight: normal;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 4px;
+}
+a {
+  color: #42b983;
+}
 </style>

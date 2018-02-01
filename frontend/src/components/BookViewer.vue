@@ -56,11 +56,6 @@ export default {
 </script>
 
 <style scoped>
-h1, h2 {
-  margin: 0;
-  padding: 0.5em 0;
-  font-weight: normal;
-}
 .book-viewer {
   position: relative;
   height: 100%;
