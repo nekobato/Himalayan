@@ -1,5 +1,5 @@
-const dir = require('./scan/directory-initializer')
-const src = require('./scan/book-scanner')
+const dir = require('./directory-initializer')
+const src = require('./book-scanner')
 const { Admin } = require('../models')
 const config = require('../config')
 

@@ -1,9 +1,9 @@
 const fs = require('fs')
 const path = require('path')
-const Book = require('@/models/book')
-const Author = require('@/models/author')
-const util = require('@/utils/file')
-const config = require('@/config')
+const Book = require('../models/book')
+const Author = require('../models/author')
+const util = require('../utils/file')
+const config = require('../config')
 
 function fileName2BookInfo (fileName) {
   let match = fileName.match(/^\[.*\]/)
@@ -51,8 +51,11 @@ module.exports = {
       // File Detail
       let fileStat = fs.statSync(bookRawDir)
       if (!fileStat.isDirectory()) continue
+
       let bookInfo = fileName2BookInfo(directory)
       if (!bookInfo) continue
+
+      console.log(`scanning: ${directory}`)
 
       // DB
       let author = await Author.findOrCreate({
