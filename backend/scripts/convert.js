@@ -34,5 +34,8 @@ init()
   })
   .catch(err => {
     console.log(err)
-    process.exit(1)
+    admin.update({ is_converting: false })
+      .then(() => {
+        process.exit(1)
+      })
   })
