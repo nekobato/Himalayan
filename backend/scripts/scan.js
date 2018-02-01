@@ -1,6 +1,5 @@
-// const dir = require('./scan/directory')
-// const src = require('./scan/book-src')
-// const image = require('./scan/book-image')
+const dir = require('./scan/directory-initializer')
+const src = require('./scan/book-scanner')
 const { Admin } = require('../models')
 const config = require('../config')
 
@@ -20,8 +19,7 @@ async function init () {
 
   // 初期ディレクトリの作成
   await dir.init(config.dir)
-  // await src.init()
-  // await image.init()
+  await src.init()
 
   await admin.update({ is_converting: false })
 
