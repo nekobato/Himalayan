@@ -4,6 +4,7 @@ const Book = require('../models/book')
 const Author = require('../models/author')
 const util = require('../utils/file')
 const config = require('../config')
+const _ = require('lodash')
 
 function fileName2BookInfo (fileName) {
   let match = fileName.match(/^\[.*\]/)
