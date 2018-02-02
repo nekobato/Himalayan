@@ -10,7 +10,8 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node frontend/build/build.js",
     "scan": "node ./backend/scripts/scan.js",
-    "convert": "node ./backend/scripts/convert.js"
+    "convert": "node ./backend/scripts/convert.js",
+    "clear": "node ./backend/scripts/clear.js"
   },
   "dependencies": {
     "body-parser": "~1.15.1",

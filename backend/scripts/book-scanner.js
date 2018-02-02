@@ -18,7 +18,8 @@ async function numberingImages (oldDir, newDir) {
 
   function renameImage (file, index) {
     return new Promise((resolve, reject) => {
-      const newFile = path.join(newDir, util.zeroPadding(index, '000') + path.extname(file))
+      // src/[hash] + *** + .[ext]
+      const newFile = path.join(newDir, util.zeroPadding(index, '000') + _.toLower(path.extname(file)))
 
       if (fs.existsSync(newFile)) throw `${newFile} is already exists.`
 
@@ -33,7 +34,8 @@ async function numberingImages (oldDir, newDir) {
   let promises = []
   files.forEach ((file, index) => {
     if (/^\./.test(file)) return
-    if (!/\.(jpg|png|jpeg)$/.test(file)) return
+    // 大文字でもｲｲﾖ!
+    if (!/\.(jpg|png|jpeg)$/i.test(file)) return
     promises.push(renameImage(file, index))
   })
   return Promise.all(promises)
