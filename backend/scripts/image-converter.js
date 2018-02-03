@@ -89,7 +89,7 @@ function writeImage (readFile, writeFile, size, quality) {
     return Promise.resolve(data)
   })
 
-  convert.stderr.on('data', data => {
+  convert.stderr.on('data', err => {
     return Promise.reject(err)
   })
 
