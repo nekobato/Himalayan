@@ -105,10 +105,15 @@ export default {
   display: inline;
   margin: 4px 0 0;
 }
+.book-title {
+  font-size: 14px;
+}
+.book-author {
+  font-size: 12px;
+}
 .info-text {
-  background: rgba(0, 0, 0, 0.5);
-  line-height: 1.2;
-  font-size: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  line-height: 1.1;
   color: #fff;
 }
 .book-link {
