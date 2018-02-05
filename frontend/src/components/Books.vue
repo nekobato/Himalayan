@@ -15,6 +15,10 @@
         </router-link>
       </li>
     </ul>
+    <div class="pager">
+      <router-link class="page-link" v-if="prevURL" v-bind:to="prevURL">＜</router-link>
+      <router-link class="page-link" v-if="nextURL" v-bind:to="nextURL">＞</router-link>
+    </div>
   </div>
 </template>
 
@@ -27,13 +31,19 @@ export default {
   name: 'Books',
   data () {
     return {
-      booksRaw: [],
+      booksData: {
+        page: null,
+        limit: null,
+        offset: null,
+        count: null,
+        books: []
+      },
       windowWidth: null
     }
   },
   computed: {
     books () {
-      return _.map(this.$data.booksRaw, book => {
+      return _.map(this.booksData.books, book => {
         book.thumbnailURL = `${config.baseURL}image/thumbnail/${book.uuid}.jpg`
         book.link = `book/${book.uuid}`
         return book
@@ -46,13 +56,29 @@ export default {
         width: cellMinWidth + offset - 8,
         height: (cellMinWidth + offset - 8) * 1.414
       }
+    },
+    prevURL () {
+      if (!this.booksData.page) return null
+      if (this.booksData.page > 1) {
+        return { path: '/', query: { page: this.booksData.page - 1 } }
+      }
+    },
+    nextURL () {
+      if (!this.booksData.page) return null
+      if (this.booksData.count > this.booksData.offset + this.booksData.limit) {
+        return { path: '/', query: { page: this.booksData.page + 1 } }
+      }
     }
   },
   methods: {
-    getBooks () {
-      api.get('books')
+    getBooks (page) {
+      api.get('books', {
+        params: {
+          page: this.$route.query.page || 1
+        }
+      })
         .then(res => {
-          this.$data.booksRaw = res.data
+          this.$data.booksData = res.data
         })
         .catch(err => {
           console.log(err)

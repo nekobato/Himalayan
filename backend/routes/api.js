@@ -11,10 +11,29 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/books', function (req, res, next) {
-  Book.find()
-    .populate('author')
+
+  let page = req.query.page ? req.query.page : 1
+
+  let resData = {
+    page: Number(page),
+    limit: 40,
+    offset: 40 * (page - 1),
+    count: null,
+    books: []
+  }
+
+  Book
+    .count()
+    .then(data => {
+      resData.count = data
+
+      return Book
+        .find(null, null, { limit: resData.limit, skip: resData.offset })
+        .populate('author')
+    })
     .then(books => {
-      res.status(200).json(books)
+      resData.books = books
+      res.status(200).json(resData)
     })
     .catch(err => {
       res.status(500).send(err)
