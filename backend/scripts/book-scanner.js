@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const Book = require('../models/book')
-const Author = require('../models/author')
+const { Book, Author } = require('../models')
 const util = require('../utils/file')
 const config = require('../config')
 const _ = require('lodash')

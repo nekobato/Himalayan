@@ -3,7 +3,6 @@ const path = require('path')
 const { spawn } = require('child_process')
 const _ = require('lodash')
 const { Book } = require('../models')
-const BookUtil = require('../models/book')
 const config = require('../config')
 const util = require('../utils/file')
 
@@ -51,7 +50,7 @@ module.exports = {
         await createBigImage(book, image)
       }
 
-      await BookUtil.converted(book)
+      await Book.converted(book)
     }
 
     return true

@@ -1,16 +1,16 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  var user = sequelize.define('user', {
-    name: DataTypes.STRING,
-    birth: DataTypes.DATE,
-    country_code: DataTypes.INTEGER
-  }, {
-    underscored: true,
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return user;
-};
+const { Schema } = require('mongoose')
+
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true,
+    unique: true
+  }
+})
+
+module.exports = UserSchema

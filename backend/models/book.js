@@ -1,40 +1,57 @@
-const { Book } = require('./')
+const { Schema } = require('mongoose')
 const util = require('./utils')
 
-module.exports = {
-  findOrCreate (book) {
-    return Book.findOne({ title: book.title })
-      .then(data => {
-        if (data) {
-          return Promise.resolve(data)
-        } else {
-          return create(book)
-        }
-      })
-      .catch(err => {
-        throw err
-      })
+const BookSchema = new Schema({
+  uuid: {
+    type: String,
+    unique: true
   },
-  find (option) {
-    return Book.find(option)
+  title: {
+    type: String,
+    unique: true
   },
-  converted (book) {
-    return Book.findOneAndUpdate({ _id: book._id }, {
-      converted_at: Date.now()
-    })
-      .then(data => {
-        return data
-      })
-      .catch(err => {
-        throw err
-      })
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'Author'
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  converted_at: {
+    type: Date
   }
-}
+})
 
-async function create (book) {
-  return new Book({
-    uuid: util.createUuid(32),
-    title: book.title,
-    author: book.author
-  }).save()
-}
+BookSchema.static('findOrCreate', function (book) {
+  return this.findOne({ title: book.title })
+    .then(data => {
+      if (data) {
+        return Promise.resolve(data)
+      } else {
+        return this.create({
+          uuid: util.createUuid(32),
+          title: book.title,
+          author: book.author
+        })
+      }
+    })
+    .catch(err => {
+      throw err
+    })
+})
+
+
+BookSchema.static('converted', function (book) {
+  return this.findOneAndUpdate({ _id: book._id }, {
+    converted_at: Date.now()
+  })
+    .then(data => {
+      return data
+    })
+    .catch(err => {
+      throw err
+    })
+})
+
+module.exports = BookSchema
