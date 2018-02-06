@@ -16,8 +16,9 @@
       </li>
     </ul>
     <div class="pager">
-      <router-link class="page-link" v-if="prevURL" v-bind:to="prevURL">＜</router-link>
-      <router-link class="page-link" v-if="nextURL" v-bind:to="nextURL">＞</router-link>
+      <router-link class="pager-link" v-if="prevURL" v-bind:to="prevURL">＜</router-link>
+      <span class="pager-link">{{ currentPage }}</span>
+      <router-link class="pager-link" v-if="nextURL" v-bind:to="nextURL">＞</router-link>
     </div>
   </div>
 </template>
@@ -62,6 +63,9 @@ export default {
       if (this.booksData.page > 1) {
         return { path: '/', query: { page: this.booksData.page - 1 } }
       }
+    },
+    currentPage () {
+      return this.booksData.page
     },
     nextURL () {
       if (!this.booksData.page) return null
@@ -147,5 +151,12 @@ export default {
   width: 100%;
   height: 100%;
   text-decoration: none;
+}
+.pager-link {
+  display: inline-block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #999;
 }
 </style>

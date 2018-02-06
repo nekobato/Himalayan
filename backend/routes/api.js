@@ -6,18 +6,22 @@ const _ = require('lodash')
 const { Book, Author } = require('../models')
 const config = require('../config')
 
+const BOOK_LIMIT = 10
+
 router.get('/', function (req, res, next) {
   res.send('respond with a resource')
 })
 
 router.get('/books', function (req, res, next) {
 
-  let page = req.query.page ? req.query.page : 1
+  let page = req.query.page ? Number(req.query.page) : 1
+
+  if (!page) return next(new Error('page is not found.'))
 
   let resData = {
     page: Number(page),
-    limit: 40,
-    offset: 40 * (page - 1),
+    limit: BOOK_LIMIT,
+    offset: BOOK_LIMIT * (page - 1),
     count: null,
     books: []
   }
@@ -26,6 +30,8 @@ router.get('/books', function (req, res, next) {
     .count()
     .then(data => {
       resData.count = data
+
+      if (resData.count < resData.offset) throw new Error('page is not found.')
 
       return Book
         .find(null, null, { limit: resData.limit, skip: resData.offset })
@@ -36,7 +42,7 @@ router.get('/books', function (req, res, next) {
       res.status(200).json(resData)
     })
     .catch(err => {
-      res.status(500).send(err)
+      return next(err)
     })
 })
 
