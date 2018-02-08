@@ -4,8 +4,7 @@
     <ul class="book-list">
       <li class="book-cell"
         v-for="book in books"
-        :key="book.title"
-        :style="{ width: cell.width + 'px', height: cell.height + 'px' }">
+        :key="book.title">
         <router-link :to="book.link" class="book-link" >
           <img class="thumbnail-image" :src="book.thumbnailURL" />
           <div class="book-info">
@@ -50,14 +49,6 @@ export default {
         return book
       })
     },
-    cell () {
-      let cellMinWidth = 120
-      let offset = (this.windowWidth % cellMinWidth) / Math.floor(this.windowWidth / cellMinWidth)
-      return {
-        width: cellMinWidth + offset - 8,
-        height: (cellMinWidth + offset - 8) * 1.414
-      }
-    },
     prevURL () {
       if (!this.booksData.page) return null
       if (this.booksData.page > 1) {
@@ -87,18 +78,10 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    },
-    setWindowWidth: _.debounce(function () {
-      this.windowWidth = window.innerWidth
-    }, 300)
+    }
   },
   created () {
-    this.windowWidth = window.innerWidth
-    window.addEventListener('resize', this.setWindowWidth)
     this.getBooks()
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.setWindowWidth, false)
   }
 }
 </script>
@@ -109,15 +92,26 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+.book-list {
+  display: grid;
+  /* 1:√1 */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(170px, 1fr));
+  grid-gap: 8px;
+}
 .book-cell {
   position: relative;
-  margin: 4px;
-}
-.thumbnail-image {
-  /* 1:√1 */
+  display: flex;
+  align-items: center;
+  margin: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  min-height: 170px;
+}
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border: 1px solid #ddd;
 }
 .book-info {
