@@ -24,5 +24,8 @@ module.exports = {
       width: 200,
       height: 360
     }
+  },
+  admin: {
+    secret: 'bookcafe'
   }
 }

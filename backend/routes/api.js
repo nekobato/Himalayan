@@ -3,7 +3,8 @@ const router = express.Router()
 const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
-const { Book, Author } = require('../models')
+const bcrypt = require('bcryptjs')
+const { User, Book, Author } = require('../models')
 const config = require('../config')
 
 const BOOK_LIMIT = 10

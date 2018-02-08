@@ -23,6 +23,12 @@
       <h2>Rawに置かれた本を全走査</h2>
       <button class="initialize-button" @click="init">Run</button>
     </div>
+    <div class="control-group">
+      <h2>ユーザー生成</h2>
+      <input type="text" v-model="addUserForm.username" />
+      <input type="password" v-model="addUserForm.password" />
+      <button class="control-button" @click="addUser">ADD USER</button>
+    </div>
   </div>
 </template>
 
@@ -37,6 +43,10 @@ export default {
         id: null,
         title: null,
         author: null
+      },
+      addUserForm: {
+        username: null,
+        password: null
       }
     }
   },
@@ -51,6 +61,16 @@ export default {
         })
     },
     updateBook () {
+    },
+    addUser () {
+      api.post('admin/adduser', {
+        name: this.addUserForm.username,
+        password: this.addUserForm.password
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.error(err)
+      })
     }
   }
 }

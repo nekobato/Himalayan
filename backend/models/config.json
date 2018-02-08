@@ -3,15 +3,13 @@
     "username": "root",
     "password": null,
     "database": "bookcafe",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "127.0.0.1"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "bookcafe",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "127.0.0.1"
   },
   "production": {
     "username": "root",

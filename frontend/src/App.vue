@@ -47,14 +47,12 @@ h1, h2 {
   font-weight: normal;
 }
 ul {
-  display: flex;
-  flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
 }
 li {
   display: inline-block;
-  margin: 0 4px;
+  margin: 0;
 }
 a {
   color: #42b983;

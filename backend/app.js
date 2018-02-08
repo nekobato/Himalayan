@@ -4,6 +4,8 @@ const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const config = require('./config')
 
 const app = express()
 
@@ -14,6 +16,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../app')))
+app.use(require('express-session')({ secret: config.admin.secret, resave: true, saveUninitialized: true }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // cors
 if (app.get('env') === 'development') {
@@ -22,6 +27,7 @@ if (app.get('env') === 'development') {
 
 app.use('/', require('./routes/index'))
 app.use('/api', require('./routes/api'))
+app.use('/api/auth', require('./routes/auth'))
 app.use('/api/admin', require('./routes/admin'))
 app.use('/image', require('./routes/image'))
 
