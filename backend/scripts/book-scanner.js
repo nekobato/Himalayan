@@ -67,7 +67,15 @@ module.exports = {
       let author = await Author.findOrCreate({
         name: bookInfo.author
       })
-      let book = await Book.findOrCreate({
+
+      let existsBook = Book.findOne({ title: bookInfo.title })
+
+      if (existsBook) {
+        console.log(`${existsBook.title} (${existsBook.uuid}) is already exists. skipped.`)
+        continue
+      }
+
+      let book = await Book.create({
         title: bookInfo.title,
         author: author._id
       })
