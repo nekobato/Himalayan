@@ -12,7 +12,8 @@
     "scan": "node ./backend/scripts/scan.js",
     "convert": "node ./backend/scripts/convert.js",
     "clear": "node ./backend/scripts/clear.js",
-    "reset": "node ./backend/scripts/reset.js"
+    "reset": "node ./backend/scripts/reset.js",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
