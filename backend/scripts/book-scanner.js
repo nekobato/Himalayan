@@ -75,7 +75,7 @@ module.exports = {
         continue
       }
 
-      let book = await Book.create({
+      let book = await Book.findOrCreate({
         title: bookInfo.title,
         author: author._id
       })
