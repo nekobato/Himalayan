@@ -68,7 +68,7 @@ module.exports = {
         name: bookInfo.author
       })
 
-      let existsBook = Book.findOne({ title: bookInfo.title })
+      let existsBook = await Book.findOne({ title: bookInfo.title })
 
       if (existsBook) {
         console.log(`${existsBook.title} (${existsBook.uuid}) is already exists. skipped.`)
