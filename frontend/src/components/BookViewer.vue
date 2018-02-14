@@ -44,6 +44,7 @@ export default {
     getBook (uuid) {
       api.get(`book/${uuid}`)
         .then(res => {
+          if (res.status === 403) return this.$route.replace('/auth')
           this.$data.pages = res.data
         })
         .catch(err => {

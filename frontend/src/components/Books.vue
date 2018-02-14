@@ -73,6 +73,7 @@ export default {
         }
       })
         .then(res => {
+          if (res.status === 403) return this.$route.replace('/auth')
           this.$data.booksData = res.data
         })
         .catch(err => {
