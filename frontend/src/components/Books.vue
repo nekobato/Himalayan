@@ -69,20 +69,22 @@ export default {
     getBooks (page) {
       api.get('books', {
         params: {
-          page: this.$route.query.page || 1
+          page: page
         }
+      }).then(res => {
+        if (res.status === 403) return this.$route.replace('/auth')
+        this.$data.booksData = res.data
+      }).catch(err => {
+        console.log(err)
       })
-        .then(res => {
-          if (res.status === 403) return this.$route.replace('/auth')
-          this.$data.booksData = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
     }
   },
+  beforeRouteUpdate (to, from, next) {
+    this.getBooks(to.query.page || 1)
+    next()
+  },
   created () {
-    this.getBooks()
+    this.getBooks(this.$route.query.page || 1)
   }
 }
 </script>

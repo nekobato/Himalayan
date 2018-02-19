@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
 const { User, Book, Author } = require('../models')
 const config = require('../config')
 
-const BOOK_LIMIT = 10
+const BOOK_LIMIT = 16
 
 router.get('/', function (req, res, next) {
   res.send('respond with a resource')
