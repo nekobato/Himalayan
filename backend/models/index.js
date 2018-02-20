@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
+const debug = require('debug')('BookCafe:model')
 const databaseConfig = require('./config')
 
-mongoose.connect(databaseConfig.production.database)
+mongoose.connect(databaseConfig.production.database).then(() => {
+  debug('connected mongodb.')
+}).catch(() => {
+  debug('connect to mongodb is failed.')
+})
+
 mongoose.Promise = global.Promise
 const Schema = mongoose.Schema
 
