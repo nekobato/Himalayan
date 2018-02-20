@@ -16,18 +16,24 @@
           <span>AUTHOR</span>
           <input type="text" name="author" />
         </label>
-        <button class="post-button"></button>
+        <button class="post-button">MODIFY</button>
       </form>
     </div>
     <div class="control-group">
       <h2>Rawに置かれた本を全走査</h2>
       <button class="initialize-button" @click="init">Run</button>
     </div>
+    <h2>ユーザー一覧</h2>
+    <ul>
+      <li v-for="user in data.users" :key="user.username">{{ user.username }}</li>
+    </ul>
     <div class="control-group">
       <h2>ユーザー生成</h2>
-      <input type="text" v-model="addUserForm.username" />
-      <input type="password" v-model="addUserForm.password" />
-      <button class="control-button" @click="addUser">ADD USER</button>
+      <form @submit="addUser">
+        <input type="text" v-model="addUserForm.username" />
+        <input type="password" v-model="addUserForm.password" />
+        <button class="control-button">ADD USER</button>
+      </form>
     </div>
   </div>
 </template>
@@ -47,12 +53,16 @@ export default {
       addUserForm: {
         username: null,
         password: null
+      },
+      data: {
+        users: []
       }
     }
   },
   methods: {
     init () {
-      api.get('admin/init')
+      api
+        .get('admin/init')
         .then(res => {
           console.log(res)
         })
@@ -60,30 +70,72 @@ export default {
           console.error(err)
         })
     },
-    updateBook () {
-    },
+    updateBook () {},
     addUser () {
-      api.post('admin/adduser', {
-        name: this.addUserForm.username,
-        password: this.addUserForm.password
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.error(err)
-      })
+      api
+        .post('admin/user', {
+          username: this.addUserForm.username,
+          password: this.addUserForm.password
+        })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    async getUser () {
+      return (await api.get('/admin/users')).data
     }
+  },
+  created () {
+    this.getUser()
+      .then(users => {
+        this.data.users = users
+      })
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+@import "../variable.scss";
+
 .admin-page {
   padding: 0 8px;
   width: 100%;
   height: 100%;
   overflow: scroll;
 }
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
+  & > * {
+    margin: 4px;
+    width: 320px;
+  }
+
+  input,
+  button {
+    margin-top: 8px;
+    border-radius: 4px;
+    border: none;
+  }
+
+  input[type=text],
+  input[type=password] {
+    padding: 4px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 8px;
+    background: $color-2;
+    font-size: 16px;
+    color: $color-4;
+  }
+}
 .initialize-button {
   position: relative;
   padding: 8px 16px;
@@ -94,7 +146,7 @@ export default {
   line-height: 1;
   color: #444;
   font-weight: bold;
-  transition: .1s transform ease-out 0s;
+  transition: 0.1s transform ease-out 0s;
 
   &:active,
   &:hover {
@@ -102,7 +154,7 @@ export default {
   }
 
   &:active {
-    transform: scale(.92);
+    transform: scale(0.92);
   }
 }
 </style>

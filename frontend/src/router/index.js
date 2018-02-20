@@ -10,12 +10,12 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/auth',
+      path: '/',
       name: 'Auth',
       component: Auth
     },
     {
-      path: '/',
+      path: '/books',
       name: 'Books',
       component: Books
     },

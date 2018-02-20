@@ -3,9 +3,9 @@ const router = express.Router()
 const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
-const bcrypt = require('bcryptjs')
-const { User, Book, Author } = require('../models')
+const { Book, Author } = require('../models')
 const config = require('../config')
+const cel = require('connect-ensure-login')
 
 const BOOK_LIMIT = 16
 
@@ -14,6 +14,7 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/books', function (req, res, next) {
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
 
   let page = req.query.page ? Number(req.query.page) : 1
 
@@ -27,16 +28,16 @@ router.get('/books', function (req, res, next) {
     books: []
   }
 
-  Book
-    .count()
+  Book.count()
     .then(data => {
       resData.count = data
 
       if (resData.count < resData.offset) throw new Error('page is not found.')
 
-      return Book
-        .find(null, null, { limit: resData.limit, skip: resData.offset })
-        .populate('author')
+      return Book.find(null, null, {
+        limit: resData.limit,
+        skip: resData.offset
+      }).populate('author')
     })
     .then(books => {
       resData.books = books
@@ -48,6 +49,8 @@ router.get('/books', function (req, res, next) {
 })
 
 router.get('/book/:uuid', function (req, res, next) {
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
+
   Book.findOne({ uuid: req.params.uuid })
     .populate('author')
     .then(book => {
@@ -68,9 +71,14 @@ router.get('/book/:uuid', function (req, res, next) {
 })
 
 router.post('/book/:id', function (req, res, next) {
-  Book.findOneAndUpdate({
-    _id: req.params.id
-  }, req.body)
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
+
+  Book.findOneAndUpdate(
+    {
+      _id: req.params.id
+    },
+    req.body
+  )
     .then(book => {
       res.status(200).json(book)
     })
@@ -79,7 +87,9 @@ router.post('/book/:id', function (req, res, next) {
     })
 })
 
-router.get('/authors', function(req, res, next) {
+router.get('/authors', function (req, res, next) {
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
+
   Author.find()
     .then(authors => {
       res.status(200).json(authors)

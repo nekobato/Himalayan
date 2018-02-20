@@ -41,7 +41,6 @@ BookSchema.static('findOrCreate', function (book) {
     })
 })
 
-
 BookSchema.static('converted', function (book) {
   return this.findOneAndUpdate({ _id: book._id }, {
     converted_at: Date.now()

@@ -19,13 +19,13 @@ UserSchema.pre('save', function (next) {
   if (!/([a-zA-Z_0-9]|_)+/.test(this.password)) return next(new Error('Password cannot use !([a-zA-Z_0-9]|_)'))
 
   let salt = bcrypt.genSaltSync(10)
-  this.password = bcrypt.hashSync(this.password, salt);
+  this.password = bcrypt.hashSync(this.password, salt)
 
   next()
 })
 
 UserSchema.method('verifyPassword', function (password) {
-  return bcrypt.compareSync(this.password, password)
+  return bcrypt.compareSync(password, this.password)
 })
 
 module.exports = UserSchema

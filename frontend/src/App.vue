@@ -16,7 +16,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "./variable.scss";
+
 html,
 body {
   margin: 0;
@@ -33,12 +35,13 @@ body {
 #app {
   position: relative;
   height: 100%;
+  background: $color-1;
   overflow: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $color-4;
 }
 
 h1, h2 {
