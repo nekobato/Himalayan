@@ -9,13 +9,16 @@ const UserSessionSchema = new Schema({
     ref: 'User',
     required: true
   },
-  log: [{
+  logs: [{
     book: {
       type: Schema.Types.ObjectId,
       ref: 'Book'
     },
     time: {
       // 秒数
+      type: Number
+    },
+    page: {
       type: Number
     }
   }]

@@ -8,14 +8,9 @@ const UserStarSchema = new Schema({
     ref: 'User',
     required: true
   },
-  star: [{
-    book: {
-      type: Schema.Types.ObjectId,
-      ref: 'Book'
-    },
-    time: {
-      type: Number
-    }
+  stars: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Book'
   }]
 })
 
