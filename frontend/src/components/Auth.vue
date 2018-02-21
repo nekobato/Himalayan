@@ -1,6 +1,12 @@
 <template>
   <div class="auth">
-    <h1>Book Cafe</h1>
+    <div class="background">
+      <div class="rect-object rect-1" ref="rect1"></div>
+      <div class="rect-object rect-2" ref="rect2"></div>
+      <div class="rect-object rect-3" ref="rect3"></div>
+      <div class="rect-object rect-4" ref="rect4"></div>
+    </div>
+    <h1 class="title">Book Cafe</h1>
     <form class="auth-form" @submit.prevent="auth">
       <input class="form-item form-input" type="text" v-model="username" placeholder="USERNAME" />
       <input class="form-item form-input" type="password" v-model="password" placeholder="PASSWORD" />
@@ -10,6 +16,8 @@
 </template>
 
 <script>
+import anime from 'animejs'
+import randomColor from 'random-color'
 import api from '@/lib/api'
 
 export default {
@@ -19,8 +27,6 @@ export default {
       username: '',
       password: ''
     }
-  },
-  computed: {
   },
   methods: {
     auth () {
@@ -36,14 +42,46 @@ export default {
       }).catch(() => {
         this.$router.replace('/')
       })
+    },
+    nextPageAnimation () {
+      let animation = anime.timeline()
+      animation.add({
+        targets: this.$refs.rect4,
+        translateX: '-100%',
+        duration: 1000,
+        easing: 'easeInQuad'
+      }).add({
+        targets: this.$refs.rect2,
+        translateX: '-100%',
+        duration: 1000,
+        easing: 'easeOutQuad',
+        complete: () => {
+          this.nextColoring()
+          setTimeout(animation.restart, 500)
+        }
+      })
+    },
+    nextColoring () {
+      this.$refs.rect1.style.backgroundColor = this.$refs.rect2.style.backgroundColor
+      this.$refs.rect2.style.transform = ''
+      this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+      this.$refs.rect3.style.backgroundColor = this.$refs.rect4.style.backgroundColor
+      this.$refs.rect4.style.transform = ''
+      this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.99).hexString()
     }
+  },
+  mounted () {
+    this.$refs.rect1.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+    this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+    this.$refs.rect3.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+    this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+    this.nextPageAnimation()
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import "../variable.scss";
-
 .auth {
   display: flex;
   justify-content: center;
@@ -51,6 +89,32 @@ export default {
   flex-flow: column;
   width: 100%;
   height: 100%;
+}
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .rect-object {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    &.rect-1 {
+      left: 0;
+    }
+    &.rect-2 {
+      left: 50%;
+    }
+    &.rect-3 {
+      left: 50%;
+    }
+    &.rect-4 {
+      left: 100%;
+    }
+  }
+}
+.title,
+.auth-form {
+  position: relative;
 }
 .auth-form {
   display: flex;

@@ -94,6 +94,7 @@ export default {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  padding: 0 0 24px;
 }
 .book-list {
   display: grid;
