@@ -64,17 +64,17 @@ export default {
     nextColoring () {
       this.$refs.rect1.style.backgroundColor = this.$refs.rect2.style.backgroundColor
       this.$refs.rect2.style.transform = ''
-      this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+      this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.5).hexString()
       this.$refs.rect3.style.backgroundColor = this.$refs.rect4.style.backgroundColor
       this.$refs.rect4.style.transform = ''
-      this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+      this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.5).hexString()
     }
   },
   mounted () {
-    this.$refs.rect1.style.backgroundColor = randomColor(0.3, 0.99).hexString()
-    this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.99).hexString()
-    this.$refs.rect3.style.backgroundColor = randomColor(0.3, 0.99).hexString()
-    this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.99).hexString()
+    this.$refs.rect1.style.backgroundColor = randomColor(0.3, 0.5).hexString()
+    this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.5).hexString()
+    this.$refs.rect3.style.backgroundColor = randomColor(0.3, 0.5).hexString()
+    this.$refs.rect4.style.backgroundColor = randomColor(0.3, 0.5).hexString()
     this.nextPageAnimation()
   }
 }
