@@ -34,7 +34,8 @@ export default {
   },
   computed: {
     currentPageImageURL () {
-      return `${config.baseURL}image/small/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
+      let size = window.innerHeight > 640 ? 'big' : 'small'
+      return `${config.baseURL}image/${size}/${this.$props.uuid}/${this.$data.pages[this.$data.current]}`
     },
     progressPercent () {
       return (this.current + 1) / this.pages.length * 100
