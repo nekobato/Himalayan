@@ -52,7 +52,7 @@ export default {
     prevURL () {
       if (!this.booksData.page) return null
       if (this.booksData.page > 1) {
-        return { path: '/', query: { page: this.booksData.page - 1 } }
+        return { path: '/books', query: { page: this.booksData.page - 1 } }
       }
     },
     currentPage () {
@@ -61,7 +61,7 @@ export default {
     nextURL () {
       if (!this.booksData.page) return null
       if (this.booksData.count > this.booksData.offset + this.booksData.limit) {
-        return { path: '/', query: { page: this.booksData.page + 1 } }
+        return { path: '/books', query: { page: this.booksData.page + 1 } }
       }
     }
   },
