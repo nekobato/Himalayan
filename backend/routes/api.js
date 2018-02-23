@@ -70,12 +70,12 @@ router.get('/book/:uuid', function (req, res, next) {
     })
 })
 
-router.post('/book/:id', function (req, res, next) {
+router.post('/book/:uuid', function (req, res, next) {
   if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
 
   Book.findOneAndUpdate(
     {
-      _id: req.params.id
+      uuid: req.params.uuid
     },
     req.body
   )
@@ -93,6 +93,23 @@ router.get('/authors', function (req, res, next) {
   Author.find()
     .then(authors => {
       res.status(200).json(authors)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
+})
+
+router.post('/author/:uuid', function (req, res, next) {
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
+
+  Author.findOneAndUpdate(
+    {
+      uuid: req.params.uuid
+    },
+    req.body
+  )
+    .then(author => {
+      res.status(200).json(author)
     })
     .catch(err => {
       res.status(500).send(err)

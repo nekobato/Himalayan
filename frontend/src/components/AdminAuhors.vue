@@ -1,11 +1,20 @@
 <template>
-  <div class="admin-page">
-    <h1>Admin</h1>
-    <nav>
-      <router-link to="/admin/books">Books</router-link>
-      <router-link to="/admin/authors">Authors</router-link>
-    </nav>
-    <router-view />
+  <div class="admin-authors">
+    <h2>Authors</h2>
+    <table class="author-table">
+      <thead>
+        <tr>
+          <td>Author Name</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="author in authors" :key="author._id">
+          <td><input class="author-name" type="text" v-model="author.name" /></td>
+          <td><button @click="changeData(author)">CHANGE</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -13,57 +22,29 @@
 import api from '@/lib/api'
 
 export default {
-  name: 'AdminPage',
+  name: 'AdminAuthors',
   data () {
     return {
-      book: {
-        id: null,
-        title: null,
-        author: null
-      },
-      addUserForm: {
-        username: null,
-        password: null
-      },
-      data: {
-        users: []
-      }
+      authors: []
     }
   },
   methods: {
-    init () {
-      api
-        .get('admin/init')
+    changeData (author) {
+      api.post(`author/${author.uuid}`, {
+        name: author.name
+      })
         .then(res => {
-          console.log(res)
+          console.log(res.data)
         })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    updateBook () {},
-    addUser () {
-      api
-        .post('admin/user', {
-          username: this.addUserForm.username,
-          password: this.addUserForm.password
-        })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    async getUser () {
-      return (await api.get('/admin/users')).data
+        .catch(err => { throw err })
     }
   },
   created () {
-    this.getUser()
-      .then(users => {
-        this.data.users = users
+    api.get('/authors')
+      .then(res => {
+        this.authors = res.data
       })
+      .catch(err => { throw err })
   }
 }
 </script>
