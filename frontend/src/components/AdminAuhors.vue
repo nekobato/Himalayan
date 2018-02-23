@@ -52,61 +52,22 @@ export default {
 <style lang="scss" scoped>
 @import "../variable.scss";
 
-.admin-page {
-  padding: 0 8px;
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-}
-form {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.author-table {
+  margin: 0 auto;
+  text-align: left;
 
-  & > * {
-    margin: 4px;
-    width: 320px;
+  td {
+    padding: 2px 4px;
   }
 
-  input,
-  button {
-    margin-top: 8px;
-    border-radius: 4px;
+  input {
+    padding: 8px 4px;
+    background: rgba(255, 255, 255, 0.7);
     border: none;
   }
 
-  input[type=text],
-  input[type=password] {
-    padding: 4px;
-    font-size: 16px;
-  }
-
-  button {
-    padding: 8px;
-    background: $color-2;
-    font-size: 16px;
-    color: $color-4;
-  }
-}
-.initialize-button {
-  position: relative;
-  padding: 8px 16px;
-  background: #ddd;
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
-  line-height: 1;
-  color: #444;
-  font-weight: bold;
-  transition: 0.1s transform ease-out 0s;
-
-  &:active,
-  &:hover {
-    background: #eee;
-  }
-
-  &:active {
-    transform: scale(0.92);
+  .author-name {
+    width: 400px;
   }
 }
 </style>
