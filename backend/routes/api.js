@@ -7,7 +7,7 @@ const { Book, Author } = require('../models')
 const config = require('../config')
 const cel = require('connect-ensure-login')
 
-const BOOK_LIMIT = 16
+const BOOK_LIMIT = 32
 
 router.get('/', function (req, res, next) {
   res.send('respond with a resource')
