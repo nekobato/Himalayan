@@ -11,11 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="book in books" :key="book._id">
+        <tr v-for="book in booksData.books" :key="book._id">
           <td><img class="thumbnail-image" :src="book.thumbnailURL" /></td>
-          <td><input class="book-title" type="text" v-model="book.title" /></td>
+          <td><input class="book-title" type="text" v-model="book.title" @change="onTitleChanged(book)" /></td>
           <td>{{ book.author.name }}</td>
-          <td><button @click="changeData(book)">CHANGE</button></td>
+          <td><button @click="changeData(book)" v-show="book.changed">CHANGE</button></td>
         </tr>
       </tbody>
     </table>
@@ -40,13 +40,6 @@ export default {
     }
   },
   computed: {
-    books () {
-      return _.map(this.booksData.books, book => {
-        book.thumbnailURL = `${config.baseURL}image/thumbnail/${book.uuid}.jpg`
-        book.link = `book/${book.uuid}`
-        return book
-      })
-    },
     prevURL () {
       if (!this.booksData.page) return null
       if (this.booksData.page > 1) {
@@ -69,15 +62,28 @@ export default {
         title: book.title
       })
         .then(res => {
+          book.changed = false
           console.log(res.data)
         })
         .catch(err => { throw err })
+    },
+    initBooks () {
+      this.booksData.books = _.map(this.booksData.books, book => {
+        book.thumbnailURL = `${config.baseURL}image/thumbnail/${book.uuid}.jpg`
+        book.link = `book/${book.uuid}`
+        book.changed = false
+        return book
+      })
+    },
+    onTitleChanged (book) {
+      book.changed = true
     }
   },
   created () {
     api.get('/books')
       .then(res => {
         this.booksData = res.data
+        this.initBooks()
       })
       .catch(err => { throw err })
   }
