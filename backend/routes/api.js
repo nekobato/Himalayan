@@ -87,6 +87,20 @@ router.post('/book/:id', function (req, res, next) {
     })
 })
 
+// get book's next, prev
+router.get('/book/:uuid/relations', function (req, res, next) {
+  if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
+
+  Book.findOne({ uuid: req.params.uuid })
+    .populate('author')
+    .then(book => {
+      // TODO relations code
+    })
+    .catch(err => {
+      next(err)
+    })
+})
+
 router.get('/authors', function (req, res, next) {
   if (!cel.ensureLoggedIn()) return res.status(403).send({ error: 'Not Authenticated.' })
 
