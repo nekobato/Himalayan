@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "vue-cli-service build",
-    "serve": "vue-cli-service serve --mode development"
+    "serve": "vue-cli-service serve --mode development",
+    "postinstall": "npm run build"
   }
 }

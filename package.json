@@ -6,14 +6,12 @@
     "start": "node ./bin/www",
     "dev": "npm run dev:backend & npm run dev:frontend",
     "dev:backend": "cross-env NODE_ENV=development DEBUG=express:* node-dev ./bin/dev",
-    "dev:frontend": "webpack-dev-server --inline --progress --config frontend/build/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node frontend/build/build.js",
     "scan": "node ./backend/scripts/scan.js",
     "convert": "node ./backend/scripts/convert.js",
     "clear": "node ./backend/scripts/clear.js",
     "reset": "node ./backend/scripts/reset.js",
-    "postinstall": ""
+    "postinstall": "cd frontend; npm install"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
