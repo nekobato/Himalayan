@@ -89,12 +89,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .books {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: 0 0 24px;
+  padding: 0 16px 24px;
 }
 .book-list {
   display: grid;
@@ -144,17 +144,20 @@ export default {
   line-height: 1.1;
   color: #fff;
 }
-.book-link {
+.pager {
+  margin: 24px auto;
+  .book-link {
   display: block;
   width: 100%;
   height: 100%;
   text-decoration: none;
-}
-.pager-link {
-  display: inline-block;
-  padding: 8px;
-  border: 1px solid #ddd;
-  text-decoration: none;
-  color: #999;
+  }
+  .pager-link {
+    display: inline-block;
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #999;
+  }
 }
 </style>
