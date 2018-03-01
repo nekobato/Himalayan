@@ -1,6 +1,14 @@
-# fron
+# BookCafe
 
-> A Vue.js project
+Distribute Book Viewer on Web　from your Book Directories (jpg collections)
+
+BookCafeは、画像で構成された電子書籍ディレクトリ群をWebから閲覧できるリーダーとして配信します。
+
+## Dependencies
+
+- node >= 8.0.0
+- npm >= 5.0.0
+- mongodb
 
 ## Build Setup
 
@@ -8,14 +16,16 @@
 # install dependencies
 npm install
 
+# && postinstall cd frontend; npm install
+# && postinstall auto build
+
+# setup application
+
+# TODO 
+
 # serve with hot reload at localhost:8080
-npm run dev
+npm run serve
 
 # build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+cd frontend && npm run build
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
