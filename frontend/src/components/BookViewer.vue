@@ -28,8 +28,7 @@ export default {
     return {
       pages: [],
       current: 0,
-      prevBook: null,
-      nextBook: null
+      relations: {}
     }
   },
   computed: {
@@ -42,11 +41,21 @@ export default {
     }
   },
   methods: {
-    getBook (uuid) {
-      api.get(`book/${uuid}`)
+    getBook () {
+      api.get(`book/${this.$props.uuid}`)
         .then(res => {
           if (res.status === 403) return this.$route.replace('/auth')
           this.$data.pages = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getRelations () {
+      api.get(`book/${this.$props.uuid}/relations`)
+        .then(res => {
+          if (res.status === 403) return this.$route.replace('/auth')
+          this.$data.relations = res.data
         })
         .catch(err => {
           console.log(err)
@@ -76,7 +85,8 @@ export default {
     }
   },
   created () {
-    this.getBook(this.$props.uuid)
+    this.getBook()
+    this.getRelations()
   }
 }
 </script>
