@@ -14,8 +14,6 @@ Vue.use(VueLazyload, {
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  render: h => h(App),
   router,
-  template: '<App/>',
-  components: { App }
-})
+}).$mount('#app')

@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "description": "BookCafe Frontend",
+  "dependencies": {
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-beta.1",
+    "@vue/cli-plugin-eslint": "^3.0.0-beta.1",
+    "@vue/cli-service": "^3.0.0-beta.1",
+    "animejs": "^2.2.0",
+    "axios": "^0.17.1",
+    "babel-core": "^6.26.0",
+    "node-sass": "^4.7.2",
+    "postcss-import": "^11.1.0",
+    "random-color": "^1.0.1",
+    "sass-loader": "^6.0.6",
+    "vue-lazyload": "^1.2.1"
+  },
+  "scripts": {
+    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --mode development"
+  }
+}

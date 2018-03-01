@@ -1,7 +1,12 @@
+const path = require('path')
+
 module.exports = {
   lintOnSave: false,
-  devServer: {
-    contentBase: path.join(__dirname, "frontend"),
-    index: 'index.html'
+  chainWebpack: config => {
+    config
+      .plugin('html')
+      .tap(args => {
+        return [{ template: path.resolve('./public/index.html') }]
+      })
   }
 }
