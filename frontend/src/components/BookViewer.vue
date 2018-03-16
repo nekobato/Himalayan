@@ -14,6 +14,12 @@
       <div class="transparent-button goto-right-book"  @click="gotoRightBook"></div>
       <div class="transparent-button show-progress"  @click="showProgress"></div>
     </div>
+    <div class="settings" v-show="settings.isVisible" @click="closeSettings">
+      <div class="settings-menu">
+        <div class="menu-button" @click.stop="good">good</div>
+        <div class="menu-button" @click.stop="bad">bad</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,7 +34,10 @@ export default {
     return {
       pages: [],
       current: 0,
-      relations: {}
+      relations: {},
+      settings: {
+        isVisible: false
+      }
     }
   },
   computed: {
@@ -75,12 +84,21 @@ export default {
 
     },
     openSettings () {
-
+      this.settings.isVisible = true
+    },
+    closeSettings () {
+      this.settings.isVisible = false
     },
     gotoRightBook () {
 
     },
     showProgress () {
+
+    },
+    good () {
+
+    },
+    bad () {
 
     }
   },
@@ -91,7 +109,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .book-viewer {
   position: relative;
   height: 100%;
@@ -170,5 +188,35 @@ export default {
   bottom: 0;
   width: 40%;
   height: 20%;
+}
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .3);
+  .settings-menu {
+    display: grid;
+    width: 240px;
+    height: 240px;
+    background: #ddd;
+  }
+  .menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 16px;
+    cursor: pointer;
+    &:active {
+      background: #bbb;
+    }
+  }
 }
 </style>
