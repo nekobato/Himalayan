@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "npm run dev:backend & npm run dev:frontend",
-    "dev:backend": "cross-env NODE_ENV=development DEBUG=express:* node-dev ./bin/dev",
+    "dev": "cross-env NODE_ENV=development DEBUG=express:* node-dev ./bin/dev",
     "lint": "eslint --ext .js,.vue src",
     "scan": "node ./backend/scripts/scan.js",
     "convert": "node ./backend/scripts/convert.js",
