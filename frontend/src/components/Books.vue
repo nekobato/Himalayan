@@ -154,8 +154,11 @@ export default {
   }
   .pager-link {
     display: inline-block;
+    margin: 0 4px;
     padding: 8px;
     border: 1px solid #ddd;
+    font-size: 16px;
+    line-height: 1;
     text-decoration: none;
     color: #999;
   }
