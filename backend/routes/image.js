@@ -59,7 +59,7 @@ router.get('/big/:book_uuid/:num', function(req, res, next) {
   res
     .type('jpg')
     .sendFile(
-      path.join(config.dir.big, req.params.book_uuid, req.params.num) + '.jpg',
+      path.join(config.dir.big, req.params.book_uuid, req.params.num),
       sendFileOption,
       (err) => {
         if (err) {
