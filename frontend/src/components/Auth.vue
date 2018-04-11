@@ -43,6 +43,16 @@ export default {
         this.$router.replace('/')
       })
     },
+    checkAuthStatus () {
+      api.get('/auth/status')
+        .then(res => {
+          if (res.status === 200 && res.data.status === true) {
+            this.$router.replace('books')
+          }
+        }).catch(err => {
+          alert(err)
+        })
+    },
     nextPageAnimation () {
       let animation = anime.timeline()
       animation.add({
@@ -71,6 +81,7 @@ export default {
     }
   },
   mounted () {
+    this.checkAuthStatus()
     this.$refs.rect1.style.backgroundColor = randomColor(0.3, 0.5).hexString()
     this.$refs.rect2.style.backgroundColor = randomColor(0.3, 0.5).hexString()
     this.$refs.rect3.style.backgroundColor = randomColor(0.3, 0.5).hexString()
