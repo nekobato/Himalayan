@@ -4,69 +4,20 @@ const router = express.Router()
 const config = require('../config')
 const cel = require('connect-ensure-login')
 
-const sendFileOption = {
-  dotfiles: 'deny',
-  headers: { 'x-sent': true }
+function isAuth (req, res, next) {
+  if (!cel.ensureLoggedIn()) {
+    res.status(403).end({ error: 'Not Authenticated.' })
+  } else {
+    next()
+  }
 }
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  if (!cel.ensureLoggedIn()) {
-    return res.status(403).send({ error: 'Not Authenticated.' })
-  }
+router.get('/', isAuth, function(req, res, next) {
   res.send('respond with a resource')
 })
 
-router.get('/thumbnail/:book_uuid', function(req, res, next) {
-  if (!cel.ensureLoggedIn()) {
-    return res.status(403).send({ error: 'Not Authenticated.' })
-  }
-  res
-    .type('jpg')
-    .sendFile(
-      path.join(config.dir.thumbnail, req.params.book_uuid),
-      sendFileOption,
-      (err) => {
-        if (err) {
-          next(err)
-        }
-      }
-    )
-})
-
-router.get('/small/:book_uuid/:num', function(req, res, next) {
-  if (!cel.ensureLoggedIn()) {
-    return res.status(403).send({ error: 'Not Authenticated.' })
-  }
-  res
-    .type('jpg')
-    .sendFile(
-      path.join(config.dir.small, req.params.book_uuid, req.params.num),
-      sendFileOption,
-      (err) => {
-        if (err) {
-          next(err)
-        }
-      }
-    )
-})
-
-router.get('/big/:book_uuid/:num', function(req, res, next) {
-  if (!cel.ensureLoggedIn()) {
-    return res.status(403).send({ error: 'Not Authenticated.' })
-  }
-  console.log(path.join(config.dir.big, req.params.book_uuid, req.params.num))
-  res
-    .type('jpg')
-    .sendFile(
-      path.join(config.dir.big, req.params.book_uuid, req.params.num),
-      sendFileOption,
-      (err) => {
-        if (err) {
-          next(err)
-        }
-      }
-    )
-})
+router.use('/thumbnail', isAuth, express.static(config.dir.thumbnail))
+router.get('/small', isAuth, express.static(config.dir.small))
+router.get('/big', isAuth, express.static(config.dir.big))
 
 module.exports = router
