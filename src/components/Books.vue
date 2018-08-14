@@ -90,11 +90,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../variable.scss";
+
 .books {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   padding: 0 16px 24px;
+  color: $color-4;
 }
 .book-list {
   display: grid;

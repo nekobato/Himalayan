@@ -52,22 +52,4 @@ export default {
 <style lang="scss" scoped>
 @import "../variable.scss";
 
-.author-table {
-  margin: 0 auto;
-  text-align: left;
-
-  td {
-    padding: 2px 4px;
-  }
-
-  input {
-    padding: 8px 4px;
-    background: rgba(255, 255, 255, 0.7);
-    border: none;
-  }
-
-  .author-name {
-    width: 400px;
-  }
-}
 </style>

@@ -1,11 +1,13 @@
 <template>
   <div class="admin-page">
-    <h1>Admin</h1>
-    <nav>
-      <router-link to="/admin/books">Books</router-link>
-      <router-link to="/admin/authors">Authors</router-link>
-    </nav>
-    <router-view />
+    <aside>
+      <div class="collection">
+        <p class="collection-item">Admin</p>
+        <router-link class="collection-item" to="/admin/books">Books</router-link>
+        <router-link class="collection-item" to="/admin/authors">Authors</router-link>
+      </div>
+    </aside>
+    <router-view class="container" />
   </div>
 </template>
 
@@ -72,60 +74,15 @@ export default {
 @import "../variable.scss";
 
 .admin-page {
-  padding: 0 8px;
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-}
-form {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  & > * {
-    margin: 4px;
-    width: 320px;
-  }
-
-  input,
-  button {
-    margin-top: 8px;
-    border-radius: 4px;
-    border: none;
-  }
-
-  input[type=text],
-  input[type=password] {
-    padding: 4px;
-    font-size: 16px;
-  }
-
-  button {
-    padding: 8px;
-    background: $color-2;
-    font-size: 16px;
-    color: $color-4;
-  }
+  height: 100%;
+  text-align: left;
+  background: #fff;
 }
-.initialize-button {
-  position: relative;
-  padding: 8px 16px;
-  background: #ddd;
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
-  line-height: 1;
-  color: #444;
-  font-weight: bold;
-  transition: 0.1s transform ease-out 0s;
 
-  &:active,
-  &:hover {
-    background: #eee;
-  }
-
-  &:active {
-    transform: scale(0.92);
-  }
+aside {
+  width: 320px;
+  height: 100%;
+  padding: 16px;
 }
 </style>

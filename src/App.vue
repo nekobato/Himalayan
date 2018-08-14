@@ -1,19 +1,41 @@
 <template>
   <div id="app">
-    <router-view/>
-    <action-bar />
+    <PageLoading v-if="isLoading" />
+    <router-view v-else />
+    <error-box v-bind:api-error="apiError" />
   </div>
 </template>
 
 <script>
-import ActionBar from './components/TheActionBar'
+import ErrorBox from "../components/molecules/ErrorBox";
+import PageLoading from "../components/templates/PageLoading";
 
 export default {
-  components: {
-    ActionBar
+  name: "app",
+  data() {
+    return {
+      isLoading: true,
+      apiError: null
+    };
   },
-  name: 'app'
-}
+  methods: {
+    async checkLoginStatus() {
+      try {
+        const loginStatus = await api.getLoginStatus();
+        if (loginStatus) {
+          this.$data.isLoading = false;
+        } else {
+          this.$router.replace("auth");
+        }
+      } catch (error) {
+        this.$data.apiError = error;
+      }
+    }
+  },
+  mounted() {
+    checkLoginStatus();
+  }
+};
 </script>
 
 <style lang="scss">
@@ -21,15 +43,8 @@ export default {
 
 html,
 body {
-  margin: 0;
-  height: 100%;
   overflow: hidden;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+  height: 100%;
 }
 
 #app {
@@ -37,27 +52,7 @@ body {
   height: 100%;
   background: $color-1;
   overflow: hidden;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: $color-4;
-}
-
-h1, h2 {
-  margin: 0;
-  padding: 0.5em 0;
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0;
-}
-a {
-  color: #42b983;
 }
 </style>

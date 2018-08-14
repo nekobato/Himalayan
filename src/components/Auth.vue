@@ -7,9 +7,9 @@
       <div class="rect-object rect-4" ref="rect4"></div>
     </div>
     <h1 class="title">Book Cafe</h1>
-    <form class="auth-form" @submit.prevent="auth">
-      <input class="form-item form-input" type="text" v-model="username" placeholder="USERNAME" />
-      <input class="form-item form-input" type="password" v-model="password" placeholder="PASSWORD" />
+    <form class="auth-form">
+      <input class="form-item form-input" type="text" placeholder="USERNAME" />
+      <input class="form-item form-input" type="password" placeholder="PASSWORD" />
       <button class="form-item form-button">LOGIN</button>
     </form>
   </div>
@@ -29,20 +29,6 @@ export default {
     }
   },
   methods: {
-    auth () {
-      api.post('/auth/login', {
-        username: this.username,
-        password: this.password
-      }).then(res => {
-        if (res.status === 200 && res.data.user) {
-          this.$router.push('books')
-        } else {
-          this.$router.replace('/')
-        }
-      }).catch(() => {
-        this.$router.replace('/')
-      })
-    },
     checkAuthStatus () {
       api.get('/auth/status')
         .then(res => {
@@ -50,6 +36,7 @@ export default {
             this.$router.replace('books')
           }
         }).catch(err => {
+          console.error(err)
           alert(err)
         })
     },
