@@ -4,7 +4,6 @@ const { spawn } = require('child_process')
 const _ = require('lodash')
 const { Book } = require('../models')
 const config = require('../config')
-const util = require('../utils/file')
 
 // src + dbは既に存在する前提
 
@@ -14,7 +13,6 @@ module.exports = {
     let books = await Book.find({ converted_at: { $eq: null } })
 
     for (let book of books) {
-
       console.log(`Convert: ${book.title}`)
 
       let bookSrcDir = path.join(config.dir.src, book.uuid)
@@ -40,8 +38,8 @@ module.exports = {
 
       await createThumbnail(book, images[0])
 
-      await util.accessOrMakeDir(path.join(config.dir.small, book.uuid))
-      await util.accessOrMakeDir(path.join(config.dir.big, book.uuid))
+      await fs.ensureDir(path.join(config.dir.small, book.uuid))
+      await fs.ensureDir(path.join(config.dir.big, book.uuid))
 
       for (let image of images) {
         await createSmallImage(book, image)

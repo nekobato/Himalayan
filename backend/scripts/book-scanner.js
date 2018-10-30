@@ -1,9 +1,7 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const { Book, Author } = require('../models')
-const util = require('../utils/file')
 const config = require('../config')
-const _ = require('lodash')
 
 function fileName2BookInfo (fileName) {
   let match = fileName.match(/^\[.*\]/)
@@ -15,11 +13,13 @@ function fileName2BookInfo (fileName) {
 }
 
 async function numberingImages (oldDir, newDir) {
-
   function renameImage (file, index) {
     return new Promise((resolve, reject) => {
       // src/[hash] + *** + .[ext]
-      const newFile = path.join(newDir, util.zeroPadding(index, '000') + _.toLower(path.extname(file)))
+      const newFile = path.join(
+        newDir,
+        ('000' + index.toString()).slice(-3) + path.extname(file).toLowerCase()
+      )
 
       if (fs.existsSync(newFile)) throw `${newFile} is already exists.`
 
@@ -30,15 +30,14 @@ async function numberingImages (oldDir, newDir) {
     })
   }
 
-  let files = fs.readdirSync(oldDir)
-  let promises = []
-  files.forEach ((file, index) => {
+  const files = await fs.readdir(oldDir)
+
+  return Promise.all(files.map((file, index) => {
     if (/^\./.test(file)) return
     // 大文字でもｲｲﾖ!
     if (!/\.(jpg|png|jpeg)$/i.test(file)) return
-    promises.push(renameImage(file, index))
-  })
-  return Promise.all(promises)
+    return renameImage(file, index)
+  }))
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
-const dir = require('./directory-initializer')
+const fs = require('fs-extra')
 const converter = require('./image-converter')
-const { Admin, Book } = require('../models')
+const { Admin } = require('../models')
 const config = require('../config')
 
 async function init () {
@@ -17,8 +17,9 @@ async function init () {
 
   await admin.update({ is_converting: true })
 
-  // 初期ディレクトリの作成
-  await dir.init(config.dir)
+  await Promise.all(Object.values(config.dir).map((dir) => {
+    return fs.ensureDir(dir)
+  }))
 
   await converter.init()
 
@@ -28,7 +29,7 @@ async function init () {
 }
 
 init()
-  .then(result => {
+  .then(() => {
     console.log('converting completed.')
     process.exit(0)
   })
