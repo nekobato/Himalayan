@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const { spawn } = require('child_process')
 const _ = require('lodash')
@@ -19,14 +19,12 @@ module.exports = {
 
       let bookSrcDir = path.join(config.dir.src, book.uuid)
 
-      // Check Source Directory Existence
-      try {
-        fs.accessSync(bookSrcDir)
-      } catch (e) {
+      if (! await fs.pathExists) {
+        console.log(`${book.title} - ${book.uuid} does not exist as Directory.`)
+        Book.deleteOne({ uuid: book.uuid })
+        console.log(`removed ${book.uuid} from DB`)
         continue
       }
-
-      fs.accessSync(bookSrcDir)
 
       let images = _.filter(fs.readdirSync(bookSrcDir), n => {
         return /\.(jpe?g|png)$/.test(n)
