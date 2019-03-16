@@ -62,3 +62,4 @@ typings/
 ###
 
 backend/config.js
+dist/

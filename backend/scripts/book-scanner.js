@@ -1,19 +1,27 @@
 const fs = require('fs-extra')
 const path = require('path')
-const { Book, Author } = require('../models')
+const {
+  Book,
+  Author
+} = require('../models')
 const config = require('../config')
 
-function fileName2BookInfo (fileName) {
+function fileName2BookInfo(fileName) {
   let match = fileName.match(/^\[.*\]/)
-  if (!match) return null
+  if (!match) {
+    return {
+      author: 'unknown',
+      title: fileName
+    }
+  }
   return {
     author: match[0].replace(/\[|\]/g, ""),
     title: fileName.replace(/^\[.*\] /, "")
   }
 }
 
-async function numberingImages (oldDir, newDir) {
-  function renameImage (file, index) {
+async function numberingImages(oldDir, newDir) {
+  function renameImage(file, index) {
     return new Promise((resolve, reject) => {
       // src/[hash] + *** + .[ext]
       const newFile = path.join(
@@ -41,7 +49,7 @@ async function numberingImages (oldDir, newDir) {
 }
 
 module.exports = {
-  async init () {
+  async init() {
 
     let directories = fs.readdirSync(config.dir.raw)
 
@@ -67,7 +75,9 @@ module.exports = {
         name: bookInfo.author
       })
 
-      let existsBook = await Book.findOne({ title: bookInfo.title })
+      let existsBook = await Book.findOne({
+        title: bookInfo.title
+      })
 
       if (existsBook) {
         console.log(`${existsBook.title} (${existsBook.uuid}) is already exists. skipped.`)
