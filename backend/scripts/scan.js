@@ -1,9 +1,11 @@
-const dir = require('./directory-initializer')
+// const dir = require('./directory-initializer')
 const src = require('./book-scanner')
-const { Admin } = require('../models')
+const {
+  Admin
+} = require('../models')
 const config = require('../config')
 
-async function init () {
+async function init() {
   let admin = await Admin.findOne()
 
   if (!admin) {
@@ -15,13 +17,17 @@ async function init () {
     process.exit(1)
   }
 
-  await admin.update({ is_converting: true })
+  await admin.update({
+    is_converting: true
+  })
 
   // 初期ディレクトリの作成
-  await dir.init(config.dir)
+  // await dir.init(config.dir)
   await src.init()
 
-  await admin.update({ is_converting: false })
+  await admin.update({
+    is_converting: false
+  })
 
   return true
 }
